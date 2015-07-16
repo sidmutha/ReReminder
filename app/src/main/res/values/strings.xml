@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">ReReminder</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_reminder_edit">ReminderEditActivity</string>
+    <string name="title_activity_date_time_picker">DateTimePickerActivity</string>
+    <string name="title_activity_reminder_list">ReminderListActivity</string>
+</resources>
