@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.sidmutha.rereminder.R;
 import com.sidmutha.rereminder.adapters.MomentListAdapter;
+import com.sidmutha.rereminder.db.DatabaseManager;
 import com.sidmutha.rereminder.other.Constants;
 import com.sidmutha.rereminder.other.XGod;
 import com.sidmutha.rereminder.structs.MomentStruct;
@@ -62,7 +63,7 @@ public class ReminderEditActivity extends ActionBarActivity {
         ListView momLV = (ListView) findViewById(R.id.rmed_listview);
         momLV.setAdapter(mlAdapter);
 
-        final Switch sw = (Switch) findViewById(R.id.rmed_sw_enabled);
+        /*final Switch sw = (Switch) findViewById(R.id.rmed_sw_enabled);
         boolean enabled = (incReminderStruct.state == 1);
         sw.setChecked(enabled);
         sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -70,7 +71,7 @@ public class ReminderEditActivity extends ActionBarActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 //incReminderStruct.state = isChecked ? 1 : 0;
             }
-        });
+        });*/
 
         Button btnAddMoment = (Button) findViewById(R.id.rmed_btn_add);
         btnAddMoment.setOnClickListener(new View.OnClickListener() {
@@ -85,11 +86,11 @@ public class ReminderEditActivity extends ActionBarActivity {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!sw.isChecked()) { // TODO: add new, enable old, disable old, disable new
+                /*if (!sw.isChecked()) { // TODO: add new, enable old, disable old, disable new
                     // tough!
                 }
 
-
+                */
                 EditText etMessage = (EditText) findViewById(R.id.rmed_message);
                 Editable message = etMessage.getText();
                 if (message.length() == 0) {
@@ -113,9 +114,10 @@ public class ReminderEditActivity extends ActionBarActivity {
 
                     m.moment = Constants.getMoment(m);
                 }
+                incReminderStruct.state = 1;
                 if (requestCode == Constants.REMINDER_NEW) {
-                    XGod.addNewAlarmReminder(getApplicationContext(), incReminderStruct); // add to db and set
-                } else {
+                    XGod.addNewAlarmReminder(getApplicationContext(), incReminderStruct); // add to db and set alarms
+                } else { // modify
                     doGodsWork();
                 }
 
@@ -146,10 +148,12 @@ public class ReminderEditActivity extends ActionBarActivity {
         List<MomentStruct> origMomList = incReminderStructCopy.momentList;
         List<MomentStruct> newMomList = incReminderStruct.momentList;
         Context context = getApplicationContext();
+        DatabaseManager.updateTblReminders(context, incReminderStruct); // !! violating db access
 
         for (MomentStruct m1 : newMomList) {
             if (m1.rowid == -1) {
                 // add new
+                m1.rmid = incReminderStruct.rowid;
                 XGod.addNewAlarm(context, m1);
                 continue;
             }

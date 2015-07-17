@@ -28,6 +28,7 @@ public class ReminderStruct implements Parcelable {
         this.rowid = rowid;
         this.message = message;
         this.state = state;
+        this.momentList = new LinkedList<>();
     }
 
     private ReminderStruct(Parcel source) {
@@ -69,7 +70,7 @@ public class ReminderStruct implements Parcelable {
     public ReminderStruct createCopy() {
         ReminderStruct r = new ReminderStruct(rowid, message, state);
         for (MomentStruct m : momentList) {
-            r.momentList.add(m);
+            r.momentList.add(m.createCopy());
         }
         return r;
     }

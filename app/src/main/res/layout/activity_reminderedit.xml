@@ -31,11 +31,6 @@
 
     </ListView>
 
-    <Switch
-        android:id="@+id/rmed_sw_enabled"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Enabled" />
 
     <LinearLayout
         android:layout_width="match_parent"

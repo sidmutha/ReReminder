@@ -12,6 +12,8 @@ import android.widget.TextView;
 import android.util.Log;
 
 import com.sidmutha.rereminder.R;
+import com.sidmutha.rereminder.activities.ReminderListActivity;
+import com.sidmutha.rereminder.other.XGod;
 import com.sidmutha.rereminder.structs.MomentStruct;
 import com.sidmutha.rereminder.structs.ReminderStruct;
 
@@ -46,7 +48,7 @@ public class ReminderListAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, final ViewGroup parent) {
+    public View getView(final int position, View convertView, final ViewGroup parent) {
         View vi = null;
         final ReminderStruct rs = (ReminderStruct) getItem(position);
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -61,15 +63,33 @@ public class ReminderListAdapter extends BaseAdapter {
         TextView tv_msg = (TextView) vi.findViewById(R.id.rli_txt_msg);
         tv_msg.setText(rs.message);
 
-        Switch swEnabled = (Switch) vi.findViewById(R.id.rli_swch_onoff);
+        final Switch swEnabled = (Switch) vi.findViewById(R.id.rli_swch_onoff);
         swEnabled.setChecked(rs.state == 1);
-        swEnabled.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        swEnabled.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!swEnabled.isChecked()) {
+                    rs.state = 0;
+                    //swEnabled.setChecked(false);
+                    XGod.disableReminder(context, rs);
+                } else {
+                    ((ReminderListActivity) context).startModifyEditActivity(rs, position);
+                    swEnabled.setChecked(true);
+                }
+            }
+        });
+        /*swEnabled.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 rs.state = isChecked ? 1 : 0;
+                if (!isChecked) {
+                    XGod.disableReminder(context, rs);
+                } else {
+
+                }
                 // REM: enable/disable entire reminder
             }
-        });
+        });*/
 
         ImageButton btnDel = (ImageButton) vi.findViewById(R.id.rli_btn_del);
         btnDel.setOnClickListener(new View.OnClickListener() {
@@ -78,6 +98,7 @@ public class ReminderListAdapter extends BaseAdapter {
                 rs.state = -1;
                 reminderStructList.remove(rs);
                 // DB: update state in db
+                XGod.tempDeleteReminder(context, rs);
                 notifyDataSetChanged();
             }
         });
@@ -87,7 +108,7 @@ public class ReminderListAdapter extends BaseAdapter {
         List<MomentStruct> momList = rs.momentList;
         if (momList.size() > 1) {
             tv_dt.setText("Multiple");
-        } else {
+        } else if (momList.size() > 0){ // skipping 0 (for testing?)
             MomentStruct ms = momList.get(0);
             tv_dt.setText("" + ms.moment);
             //tv_dt.setText(Integer.toString(momList.size()));

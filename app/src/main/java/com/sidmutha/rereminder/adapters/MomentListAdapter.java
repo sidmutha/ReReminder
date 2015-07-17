@@ -91,7 +91,8 @@ public class MomentListAdapter extends BaseAdapter {
         btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                deleteIdList.add(ms.rowid);
+                if(ms.rowid != -1)
+                    deleteIdList.add(ms.rowid);
                 momentStructList.remove(ms);
                 notifyDataSetChanged();
             }

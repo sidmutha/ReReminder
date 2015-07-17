@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
@@ -43,19 +44,8 @@ public class ReminderListActivity extends ActionBarActivity {
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                currentPosition = position;
-                Intent intent = new Intent(getApplicationContext(), ReminderEditActivity.class);
                 ReminderStruct reminderStruct = (ReminderStruct) parent.getItemAtPosition(position);
-                Bundle b1 = new Bundle();
-                b1.putInt("requestCode", Constants.REMINDER_MODIFY);
-                Bundle b2 = new Bundle();
-                b2.putParcelable("reminderStruct", reminderStruct);
-                //intent.putExtra("requestCode", Constants.REMINDER_MODIFY);
-                intent.putExtra("bundle1", b1); // workaround for some weird error
-                intent.putExtra("bundle2", b2); // workaround for some weird error
-                //intent.putExtra("reminderStruct", reminderStruct);
-
-                startActivityForResult(intent, Constants.REMINDER_MODIFY);
+                startModifyEditActivity(reminderStruct, position);
             }
         });
         lv.setAdapter(rlAdapter);
@@ -66,12 +56,32 @@ public class ReminderListActivity extends ActionBarActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), ReminderEditActivity.class);
                 ReminderStruct reminderStruct = new ReminderStruct(-1, null, 1);
-                intent.putExtra("reminderStruct", reminderStruct);
-                intent.putExtra("requestCode", Constants.REMINDER_NEW);
+                Bundle b1 = new Bundle();
+                b1.putInt("requestCode", Constants.REMINDER_NEW);
+                Bundle b2 = new Bundle();
+                b2.putParcelable("reminderStruct", reminderStruct);
+                //intent.putExtra("requestCode", Constants.REMINDER_MODIFY);
+                intent.putExtra("bundle1", b1); // workaround for some weird error
+                intent.putExtra("bundle2", b2); // workaround for some weird error
                 startActivityForResult(intent, Constants.REMINDER_NEW);
             }
         });
 
+    }
+
+    public void startModifyEditActivity(ReminderStruct reminderStruct, int position) {
+        currentPosition = position;
+        Intent intent = new Intent(getApplicationContext(), ReminderEditActivity.class);
+        Bundle b1 = new Bundle();
+        b1.putInt("requestCode", Constants.REMINDER_MODIFY);
+        Bundle b2 = new Bundle();
+        b2.putParcelable("reminderStruct", reminderStruct);
+        //intent.putExtra("requestCode", Constants.REMINDER_MODIFY);
+        intent.putExtra("bundle1", b1); // workaround for some weird error
+        intent.putExtra("bundle2", b2); // workaround for some weird error
+        //intent.putExtra("reminderStruct", reminderStruct);
+
+        startActivityForResult(intent, Constants.REMINDER_MODIFY);
     }
 
     @Override
@@ -94,6 +104,7 @@ public class ReminderListActivity extends ActionBarActivity {
                         break;
                 }
             case RESULT_CANCELED:
+
                 break;
         }
     }
