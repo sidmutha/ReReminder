@@ -115,7 +115,7 @@ public class DatabaseManager {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(LocalDBHelper.COLUMN_RMID, momentID);
+        values.put(LocalDBHelper.COLUMN_ROWID, momentID);
         values.put(LocalDBHelper.COLUMN_ENABLED, enabled); // TODO: boolean?
 
         db.update(LocalDBHelper.TABLE_TIMES, values, LocalDBHelper.COLUMN_ROWID
@@ -196,4 +196,7 @@ public class DatabaseManager {
         deleteFromTblReminders(context, reminderStruct);
     }
 
+    public static ReminderStruct getReminder(Context context, int rmid) {
+        return null;
+    }
 }
