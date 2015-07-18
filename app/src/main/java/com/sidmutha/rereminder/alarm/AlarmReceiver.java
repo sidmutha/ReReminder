@@ -24,10 +24,11 @@ public class AlarmReceiver extends BroadcastReceiver {
         Bundle data = intent.getBundleExtra("data");
         MomentStruct momentStruct = data.getParcelable("momentStruct");
         //ReminderStruct reminderStruct = DatabaseManager.getReminder(context, momentStruct.rmid); // TODO: lookup db for msg
+        String message = DatabaseManager.getReminderMessage(context, momentStruct.rmid);
         NotificationCompat.Builder builder =
                 new NotificationCompat.Builder(context)
                         .setSmallIcon(android.R.drawable.sym_def_app_icon)
-                        .setContentTitle("Reminder!")
+                        .setContentTitle(message)
                         .setContentText(momentStruct.moment + "");
 
         NotificationManager notificationManager

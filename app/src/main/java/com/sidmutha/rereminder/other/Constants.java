@@ -1,5 +1,7 @@
 package com.sidmutha.rereminder.other;
 
+import android.util.Log;
+
 import com.sidmutha.rereminder.structs.MomentStruct;
 
 import java.util.Calendar;
@@ -40,6 +42,10 @@ public class Constants {
 
     public static int getMoment(MomentStruct m) {
         Calendar cal = new GregorianCalendar(m.year, m.month, m.day, m.hour, m.minute);
-        return (int) ((int) cal.getTimeInMillis() / 1000.0); // TODO: verify
+        int moment = (int) (cal.getTimeInMillis() / 1000L);
+        //Log.d("sidd-m1", m.year + "/" + m.month + "/" + m.day + "|" + m.hour + ":" + m.minute);
+        //Log.d("sidd-m", moment + "");
+        return moment; // TODO: verify
+
     }
 }

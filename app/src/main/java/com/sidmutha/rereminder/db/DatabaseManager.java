@@ -196,7 +196,16 @@ public class DatabaseManager {
         deleteFromTblReminders(context, reminderStruct);
     }
 
-    public static ReminderStruct getReminder(Context context, int rmid) {
-        return null;
+    public static String getReminderMessage(Context context, int rmid) {
+        if (dbHelper == null)
+            dbHelper = new LocalDBHelper(context);
+
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor c = db.rawQuery("select * from " + LocalDBHelper.TABLE_REMINDERS + " where "
+                + LocalDBHelper.COLUMN_ROWID + "=?", new String[]{Integer.toString(rmid)});
+        c.moveToPosition(0);
+        String message = c.getString(c.getColumnIndex(LocalDBHelper.COLUMN_MESSAGE));
+        db.close();
+        return message;
     }
 }

@@ -3,6 +3,7 @@ package com.sidmutha.rereminder.activities;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -49,7 +50,7 @@ public class DateTimePickerActivity extends ActionBarActivity {
                 int minute = tp.getCurrentMinute();
 
                 int moment = getMoment(date, hour, minute);
-
+                Log.d("sidd-m", moment + "");
                 Intent returnIntent = new Intent();
                 returnIntent.putExtra("moment", moment);
                 setResult(1, returnIntent);
@@ -74,7 +75,7 @@ public class DateTimePickerActivity extends ActionBarActivity {
 
     static int getMoment(int date, int hour, int minute) {
         Calendar cal = new GregorianCalendar();
-        cal.setTimeInMillis(date);
+        cal.setTimeInMillis(date * 1000L);
         cal.set(Calendar.HOUR_OF_DAY, hour);
         cal.set(Calendar.MINUTE, minute);
         return (int) (cal.getTimeInMillis() / 1000);

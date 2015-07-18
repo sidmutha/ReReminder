@@ -2,7 +2,7 @@ package com.sidmutha.rereminder.structs;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
+
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -11,7 +11,8 @@ import java.util.GregorianCalendar;
  * Created by sid on 7/5/15.
  */
 public class MomentStruct implements Parcelable {
-    public int moment, year, month, day, hour, minute;
+    public int moment;
+    public int year, month, day, hour, minute;
     public boolean enabled;
     public int rowid, rmid;
 
@@ -43,7 +44,7 @@ public class MomentStruct implements Parcelable {
         this.moment = moment;
         this.enabled = enabled;
         Calendar cal = GregorianCalendar.getInstance();
-        cal.setTimeInMillis(moment * 1000); // TODO: need to verify
+        cal.setTimeInMillis(moment * 1000L); // TODO: need to verify
 
         this.year = cal.get(Calendar.YEAR);
         this.month = cal.get(Calendar.MONTH);
@@ -71,11 +72,9 @@ public class MomentStruct implements Parcelable {
         this.minute = source.readInt();
         this.moment = source.readInt();
         int e = source.readInt();
-        Log.d("sidd-e", "" + e);
         this.enabled = (e != 0);
         this.rowid = source.readInt();
         this.rmid = source.readInt();
-        //Log.d("sidd-s", source.readString());
     }
 
     @Override
@@ -95,7 +94,6 @@ public class MomentStruct implements Parcelable {
         dest.writeInt(e);
         dest.writeInt(rowid);
         dest.writeInt(rmid);
-        //dest.writeString("sid");
     }
 
     public static final Parcelable.Creator<MomentStruct> CREATOR

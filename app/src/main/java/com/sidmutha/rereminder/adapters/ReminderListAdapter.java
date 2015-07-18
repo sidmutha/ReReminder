@@ -110,8 +110,7 @@ public class ReminderListAdapter extends BaseAdapter {
             tv_dt.setText("Multiple");
         } else if (momList.size() > 0){ // skipping 0 (for testing?)
             MomentStruct ms = momList.get(0);
-            tv_dt.setText("" + ms.moment);
-            //tv_dt.setText(Integer.toString(momList.size()));
+            tv_dt.setText(ms.day + "/" + ms.month + "/" + ms.year + " " + ms.hour + ":" + ms.minute);
         }
 
         return vi;

@@ -25,7 +25,7 @@ public class AlarmHelper {
         PendingIntent pIntent = generatePIntent(context, momentStruct.rowid, PendingIntent.FLAG_CANCEL_CURRENT, data);
 
         AlarmManager alarmMgr = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        alarmMgr.set(AlarmManager.RTC_WAKEUP, momentStruct.moment, pIntent);
+        alarmMgr.set(AlarmManager.RTC_WAKEUP, momentStruct.moment * 1000L, pIntent);
     }
 
     public static void cancelAlarm(Context context, MomentStruct momentStruct) {
@@ -52,7 +52,7 @@ public class AlarmHelper {
         PendingIntent pIntent = generatePIntent(context, momentStruct.rowid, PendingIntent.FLAG_UPDATE_CURRENT, data);
 
         AlarmManager alarmMgr = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        alarmMgr.set(AlarmManager.RTC_WAKEUP, momentStruct.moment, pIntent);
+        alarmMgr.set(AlarmManager.RTC_WAKEUP, momentStruct.moment * 1000L, pIntent);
     }
 
 
