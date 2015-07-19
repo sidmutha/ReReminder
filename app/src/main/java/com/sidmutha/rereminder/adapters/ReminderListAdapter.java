@@ -74,7 +74,7 @@ public class ReminderListAdapter extends BaseAdapter {
                     XGod.disableReminder(context, rs);
                 } else {
                     ((ReminderListActivity) context).startModifyEditActivity(rs, position);
-                    swEnabled.setChecked(true);
+                    swEnabled.setChecked(false);
                 }
             }
         });

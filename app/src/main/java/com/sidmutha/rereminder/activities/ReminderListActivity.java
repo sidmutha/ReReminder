@@ -124,7 +124,7 @@ public class ReminderListActivity extends ActionBarActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.rmlist_action_history) {
             return true;
         }
 

@@ -16,6 +16,7 @@ public class ReminderStruct implements Parcelable {
     public String message;
     public List<MomentStruct> momentList;
     public int state;
+    public int num_enabled;
 
     public ReminderStruct(int rowid, String message, List<MomentStruct> momentList, int state) {
         this.rowid = rowid;
