@@ -59,7 +59,7 @@
             android:id="@+id/rli_btn_del"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_gravity="end"
+            android:layout_gravity="right"
             android:adjustViewBounds="false"
             android:src="@drawable/delete_icon2" />
     </LinearLayout>

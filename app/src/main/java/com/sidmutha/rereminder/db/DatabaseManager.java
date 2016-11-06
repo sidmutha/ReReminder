@@ -17,7 +17,7 @@ import java.util.List;
  */
 public class DatabaseManager {
     static LocalDBHelper dbHelper = null;
-
+    static String TAG = "ReReminder";
     public static List<ReminderStruct> getReminderList(Context context) {
         if (dbHelper == null)
             dbHelper = new LocalDBHelper(context);
@@ -78,12 +78,15 @@ public class DatabaseManager {
 
         List<MomentStruct> momList = new LinkedList<MomentStruct>();
         int num_enabled = 0;
+        Log.d(TAG, t.getCount() + "");
         while (t.moveToNext()) {
             int moment = t.getInt(t.getColumnIndex(LocalDBHelper.COLUMN_TIME));
             boolean enabled = t.getInt(t.getColumnIndex(LocalDBHelper.COLUMN_ENABLED)) != 0;
             if (enabled)
                 num_enabled++;
             int mom_rowid = t.getInt(t.getColumnIndex(LocalDBHelper.COLUMN_ROWID));
+            Log.d(TAG, "moment: " + moment + " enabled: " + enabled + " mom_rowid: " + mom_rowid);
+
             MomentStruct m = new MomentStruct(mom_rowid, rem_rowid, moment, enabled);
             momList.add(m);
         }
@@ -195,6 +198,7 @@ public class DatabaseManager {
 
     // add row to TABLE_REMINDERS from a ReminderStruct and return the row id
     public static int addToTblReminders(Context context, ReminderStruct reminderStruct) {
+        Log.d(TAG, "addToTblReminders called");
         if (dbHelper == null)
             dbHelper = new LocalDBHelper(context);
 
@@ -236,12 +240,12 @@ public class DatabaseManager {
         db.close();
     }
 
-    // add entire ReminderStruct with the MomentStruct to the DB
+    // add entire ReminderStruct with the MomentStruct to the DB; *DOES NOT ADD MOMENT STRUCTS*
     public static int addToDbReminder(Context context, ReminderStruct reminderStruct) {
         int rowid = addToTblReminders(context, reminderStruct);
         for (MomentStruct m : reminderStruct.momentList) {
             m.rmid = rowid;
-            addToTblTimes(context, m);
+            //addToTblTimes(context, m);
         }
         return rowid;
     }
